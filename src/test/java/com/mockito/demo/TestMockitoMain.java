@@ -12,11 +12,7 @@ import static junit.framework.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.*;
 
 /**
  * @author dbabii
@@ -66,14 +62,12 @@ public class TestMockitoMain {
 
     @Test
     public void mockList() {
-        // mock creation
+
         List mockedList = mock(List.class);
 
-        // using mock object - it does not throw any "unexpected interaction" exception
         mockedList.add("one");
         mockedList.clear();
 
-        // selective, explicit, highly readable verification
         verify(mockedList).add("one");
         verify(mockedList).clear();
     }
@@ -81,16 +75,12 @@ public class TestMockitoMain {
     @Test
     public void mockLinkedList() {
 
-        // you can mock concrete classes, not only interfaces
         LinkedList mockedList = mock(LinkedList.class);
 
-        // stubbing appears before the actual execution
         when(mockedList.get(0)).thenReturn("first");
 
-        // the following prints "first"
         System.out.println(mockedList.get(0));
 
-        // the following prints "null" because get(999) was not stubbed
         System.out.println(mockedList.get(999));
     }
 
@@ -100,20 +90,14 @@ public class TestMockitoMain {
         List list = new LinkedList();
         List spy = spy(list);
 
-        //optionally, you can stub out some methods:
         when(spy.size()).thenReturn(100);
 
-        //using the spy calls real methods
         spy.add("one");
         spy.add("two");
 
-        //prints "one" - the first element of a list
         System.out.println(spy.get(0));
-
-        //size() method was stubbed - 100 is printed
         System.out.println(spy.size());
 
-        //optionally, you can verify
         verify(spy).add("one");
         verify(spy).add("two");
     }
